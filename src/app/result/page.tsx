@@ -1,28 +1,19 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export default function Results() {
-  const searchParams = useSearchParams();
-  const score = searchParams.get("score");
-  const type = searchParams.get("type");
-  const [animate, setAnimate] = useState(false);
+interface ResultsProps {
+  searchParams: {
+    score?: string;
+    type?: string;
+  };
+}
 
-  useEffect(() => {
-    setAnimate(true);
-  }, []);
+export default function Results({ searchParams }: ResultsProps) {
+  const score = searchParams.score || "0";
+  const type = searchParams.type || "General";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center p-4">
-      <div
-        className={`bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg backdrop-blur-md w-full max-w-2xl text-center transition-all duration-1000 ${
-          animate
-            ? "opacity-100 transform translate-y-0"
-            : "opacity-0 transform translate-y-10"
-        }`}
-      >
+      <div className="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg backdrop-blur-md w-full max-w-2xl text-center">
         <h2 className="text-3xl font-bold text-white mb-6 animate-pulse">
           Quiz Results
         </h2>
@@ -40,7 +31,7 @@ export default function Results() {
             Back to Home
           </Link>
           <Link
-            href={`/quiz/${type?.toLowerCase()}`}
+            href={`/quiz/${type.toLowerCase()}`}
             className="inline-block bg-blue-500 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
           >
             Retake Quiz
@@ -50,4 +41,3 @@ export default function Results() {
     </div>
   );
 }
-
